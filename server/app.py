@@ -1,5 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
+from model import modelknn
+
+knnmodel,encode,labelencode = modelknn()
 
 app = Flask(__name__)
 CORS(app)

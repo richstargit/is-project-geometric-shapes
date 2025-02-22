@@ -1,13 +1,42 @@
 import os as os
-# import matplotlib.pyplot as plt
-# import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 import cv2 as cv2
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from tensorflow.keras.models import load_model # type: ignore
 
-def modelknn():
+# โหลดโมเดลที่บันทึกไว้
+CNNmodel = load_model("server/models/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
+
+def modelCNN(image):
+
+    # แสดงโครงสร้างของโมเดล
+    CNNmodel.summary()
+
+    # โหลดภาพที่ต้องการทำนาย
+    # image_path = "server/dataset/mytest/mytest4.jpg"  # เปลี่ยนเป็น path จริงของคุณ
+    img = cv2.imread(image)  
+    img = cv2.resize(img, (224, 224))  # ปรับขนาดให้ตรงกับที่ใช้เทรน
+    img = img / 255.0  # ปรับให้เป็นค่า [0,1]
+    img = np.expand_dims(img, axis=0)  # เพิ่มมิติให้เป็น (1, 224, 224, 3)
+
+    # ทำนายผลลัพธ์
+    predictions = CNNmodel.predict(img)
+    predicted_class = np.argmax(predictions, axis=1)[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
+    classname = ['circle', 'kite', 'parallelogram', 'rectangle', 'rhombus', 'square', 'trapezoid', 'triangle']
+    # print(classname[predicted_class])
+
+    # แสดงภาพ
+    # plt.imshow(cv2.imread(image_path)[:, :, ::-1])  # แปลงจาก BGR -> RGB
+    # plt.axis("off")
+    # plt.show()
+
+    return classname[predicted_class]
+
+
+def modelKNN():
     train_directory = 'server/dataset/train'
 
     X_train = []
@@ -88,3 +117,5 @@ def modelknn():
     # print("Recall (KNeighborsClassifier):", recall_knn)
     # print("F1-Score (KNeighborsClassifier):", f1_knn)
     return knn_model,encodedata
+
+

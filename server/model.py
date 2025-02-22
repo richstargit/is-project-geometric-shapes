@@ -1,7 +1,7 @@
-import os
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import cv2
+import os as os
+# import matplotlib.pyplot as plt
+# import matplotlib.image as mpimg
+import cv2 as cv2
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier

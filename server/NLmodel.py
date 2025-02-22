@@ -1,11 +1,10 @@
-from tensorflow.keras.models import load_model
-
-import cv2
+from tensorflow.keras.models import load_model # type: ignore
+import cv2 as cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
 # โหลดโมเดลที่บันทึกไว้
-model = load_model("server/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
+model = load_model("server/models/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
 
 # แสดงโครงสร้างของโมเดล
 model.summary()

@@ -19,7 +19,7 @@ export default function DrawCanvas() {
 
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
-      <Canvas setData={setData} width={1200} height={700} className='w-full h-full'/>
+      <Canvas setData={setData} width={224} height={224} className='w-full h-full'/>
       <Button onClick={sendModelToAPI} className='mt-4'>Send</Button>
     </div>
   )

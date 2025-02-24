@@ -5,6 +5,7 @@ from model import modelCNN
 import base64
 import numpy as np
 import cv2
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -23,14 +24,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class Item(BaseModel):
+    itemname: str
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item}")
-def read_item(item: str):
-    base64_data = item.replace("data:image/jpeg;base64,", "")
+@app.post("/items")
+def read_item(item: Item):
+    base64_data = item.itemname.replace("data:image/jpeg;base64,", "")
 
     # Step 2: Decode the Base64 string into binary data
     img_data = base64.b64decode(base64_data)

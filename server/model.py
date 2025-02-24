@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from tensorflow.keras.models import load_model # type: ignore
 
 # โหลดโมเดลที่บันทึกไว้
-CNNmodel = load_model("server/models/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
+CNNmodel = load_model("./models/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
 
 def modelCNN(image):
 

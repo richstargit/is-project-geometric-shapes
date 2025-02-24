@@ -47,5 +47,6 @@ def read_item(item: Item):
     result = modelCNN(img)
     return {"result": result}
 
+
 if __name__=="__main__":
     app.run()

@@ -2,6 +2,9 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model import modelCNN
+import base64
+import numpy as np
+import cv2
 
 app = FastAPI()
 
@@ -25,9 +28,20 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/items/{item}")
+def read_item(item: str):
+    base64_data = item.replace("data:image/jpeg;base64,", "")
+
+    # Step 2: Decode the Base64 string into binary data
+    img_data = base64.b64decode(base64_data)
+
+    # Step 3: Convert the binary data to a numpy array
+    np_array = np.frombuffer(img_data, np.uint8)
+
+    # Step 4: Decode the numpy array into an image
+    img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+    result = modelCNN(img)
+    return {"result": result}
 
 if __name__=="__main__":
     app.run()

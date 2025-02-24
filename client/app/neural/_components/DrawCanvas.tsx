@@ -1,18 +1,26 @@
 "use client"
 import {useState,useEffect} from 'react';
 import Canvas from '@/components/ui/Canvas'
-
+import {sendImageToNeuralNetWorkModel} from '@/actions/Action'
+import { Button } from '@/components/ui/button';
 
 export default function DrawCanvas() {
     const [Data, setData] = useState<string | null>(null);
 
-    useEffect(() => {
-        if (Data) {
-            console.log(Data);
-        }
-    }, [Data]);
-    
+    const sendModelToAPI = async () => {
+      if (!Data) {
+        return;
+      }
+
+      const response = await sendImageToNeuralNetWorkModel(Data);
+      console.log(response);
+
+    }
+
   return (
-    <Canvas setData={setData} width={1200} height={700} className='w-full h-full'/>
+    <div className='w-full h-full flex flex-col items-center justify-center'>
+      <Canvas setData={setData} width={1200} height={700} className='w-full h-full'/>
+      <Button onClick={sendModelToAPI} className='mt-4'>Send</Button>
+    </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import CanvasDraw from "react-canvas-draw";
-import { useRef } from "react";
+import { useRef,useState } from "react";
 
 interface CanvasProps {
     setData: (data: string) => void;
@@ -12,8 +12,11 @@ interface CanvasProps {
 
 export default function Canvas({ setData, width, height, className }: CanvasProps) {
     const canvasRef = useRef<CanvasDraw | null>(null);
+    const [color, setColor] = useState("#000000");
+    const [brushRadius, setBrushRadius] = useState(3);
 
-    const saveImage = () => {
+
+    const saveImageData = () => {
         const canvasDraw = canvasRef.current;
         if (!canvasDraw) {
             console.error("Canvas reference not found");
@@ -39,16 +42,18 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
 
         const dataURL = tempCanvas.toDataURL("image/jpeg");
 
-        if (dataURL) {
-            setData(dataURL);
-
-            console.log(dataURL);
-
-            // const link = document.createElement("a");
-            // link.href = dataURL;
-            // link.download = "drawing.jpg"; 
-            // link.click();
+        if (!dataURL) {
+            console.error("Could not save the image");
+            return;
         }
+
+        setData(dataURL);
+
+        // const link = document.createElement("a");
+        // link.href = dataURL;
+        // link.download = "drawing.jpg";
+        // link.click();
+
     };
 
     return (
@@ -56,16 +61,13 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
             <CanvasDraw
                 canvasWidth={width}
                 canvasHeight={height}
-                brushRadius={3}
+                brushRadius={brushRadius}
                 ref={canvasRef}
                 hideGrid={true}
-                onChange={(canvas) => {
-                    const data = canvas.getSaveData(); // Still fine for logging drawing data if needed
-                    // console.table(JSON.parse(data)); // Parse if you want to inspect the JSON
-                }}
+                onChange={saveImageData}
+                brushColor={color}
                 className="border rounded-lg"
             />
-            <button onClick={() => saveImage()}>saveImage</button>
         </div>
     );
 }

@@ -13,11 +13,11 @@ CNNmodel = load_model("server/models/geometric_shapes_cnn.h5")  # หรือ .
 def modelCNN(image):
 
     # แสดงโครงสร้างของโมเดล
-    CNNmodel.summary()
+    #CNNmodel.summary()
 
     # โหลดภาพที่ต้องการทำนาย
     # image_path = "server/dataset/mytest/mytest4.jpg"  # เปลี่ยนเป็น path จริงของคุณ
-    img = cv2.imread(image)  
+    img = image
     img = cv2.resize(img, (224, 224))  # ปรับขนาดให้ตรงกับที่ใช้เทรน
     img = img / 255.0  # ปรับให้เป็นค่า [0,1]
     img = np.expand_dims(img, axis=0)  # เพิ่มมิติให้เป็น (1, 224, 224, 3)

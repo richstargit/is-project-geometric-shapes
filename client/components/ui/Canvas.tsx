@@ -4,34 +4,68 @@ import CanvasDraw from "react-canvas-draw";
 import { useRef } from "react";
 
 interface CanvasProps {
-    data?: string;
-    setData?: (color: string) => void;
+    setData: (data: string) => void;
     width?: number;
     height?: number;
     className?: string;
 }
 
-
-export default function Canvas({ width, height, className }: CanvasProps) {
+export default function Canvas({ setData, width, height, className }: CanvasProps) {
     const canvasRef = useRef<CanvasDraw | null>(null);
+
+    const saveImage = () => {
+        const canvasDraw = canvasRef.current;
+        if (!canvasDraw) {
+            console.error("Canvas reference not found");
+            return;
+        }
+
+        // @ts-ignore: canvasRef.current.canvas is not typed, but "drawing" is the default canvas key
+        const canvasElement = canvasDraw.canvas["drawing"] || canvasDraw.canvas;
+
+        if (!canvasElement || !(canvasElement instanceof HTMLCanvasElement)) {
+            console.error("Could not access the canvas element");
+            return;
+        }
+
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = 224;
+        tempCanvas.height = 224;
+        const tempCtx = tempCanvas.getContext("2d");
+        if (!tempCtx) return;
+        tempCtx.fillStyle = "white";
+        tempCtx.fillRect(0, 0, 224, 224);
+        tempCtx.drawImage(canvasElement, 0, 0, 224, 224);
+
+        const dataURL = tempCanvas.toDataURL("image/jpeg");
+
+        if (dataURL) {
+            setData(dataURL);
+
+            console.log(dataURL);
+
+            // const link = document.createElement("a");
+            // link.href = dataURL;
+            // link.download = "drawing.jpg"; 
+            // link.click();
+        }
+    };
 
     return (
         <div className={cn("flex flex-col", { className })}>
-            <CanvasDraw canvasWidth={width} canvasHeight={height} brushRadius={3}
+            <CanvasDraw
+                canvasWidth={width}
+                canvasHeight={height}
+                brushRadius={3}
                 ref={canvasRef}
                 hideGrid={true}
                 onChange={(canvas) => {
-                    const data = canvas.getSaveData();
-                    console.table(data);
+                    const data = canvas.getSaveData(); // Still fine for logging drawing data if needed
+                    // console.table(JSON.parse(data)); // Parse if you want to inspect the JSON
                 }}
+                className="border rounded-lg"
             />
-            <button
-                onClick={() => {
-                    canvasRef.current?.clear();
-                }}
-            >
-                CLEAR
-            </button>
+            <button onClick={() => saveImage()}>saveImage</button>
         </div>
-    )
+    );
 }

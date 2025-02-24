@@ -1,5 +1,5 @@
 import React from 'react'
-import Canvas from '@/components/ui/Canvas'
+import DrawCanvas from './_components/DrawCanvas'
 
 export default function page() {
   return (
@@ -8,7 +8,7 @@ export default function page() {
         <span className='text-2xl font-semibold'>Neural Network Models</span>
       </header>
       <div className='flex justify-center items-center rounded-lg overflow-hidden p-2'>
-        <Canvas width={1200} height={700} className='w-full h-full'/>
+        <DrawCanvas/>
       </div>
       
     </div>

@@ -4,13 +4,18 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { predictNeuralNetWorkModel } from "@/actions/Action";
+import Loader from "@/components/ui/Loader";
 
 export default function Neural() {
     const [Img, SetImg] = useState<string | null>(null);
     const ImgRef = useRef<HTMLInputElement>(null);
+    const [answer, setAnswer] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const selectImage = () => {
         ImgRef.current?.click();
+        setAnswer(null);
+        SetImg(null);
     };
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,43 +37,62 @@ export default function Neural() {
         }
 
         const response = await predictNeuralNetWorkModel(Img);
-        console.log(response);
+        if (!response) {
+            return;
+        }
+
+        setLoading(true);
+        new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(predictNeuralNetWorkModel(Img));
+            }, 1000);
+        }).then((res: unknown) => {
+
+            const { result } = res as { result: string };
+
+            if (result) {
+                setAnswer(result as string);
+            }
+
+            setLoading(false);
+        })
     }
 
     return (
-        <div className="w-full h-full">
-            <header className="flex justify-center items-center w-full mt-10">
-                <span className="text-2xl font-bold">Neural Network Models</span>
-            </header>
-            <div className="w-full flex flex-col gap-5 justify-center items-center mt-10">
-                <span className="text-xl">Preview</span>
+            <div className="w-full h-full">
+                {loading && <Loader/>}
+                <header className={`flex justify-center items-center w-full mt-10`}>
+                    <span className="text-2xl font-bold">Neural Network Models</span>
+                </header>
+                <div className="w-full flex flex-col gap-5 justify-center items-center mt-5">
+                    <span className="text-4xl font-bold text-primary">{answer}</span>
 
-                <div
-                    className="w-[700px] h-[500px] border-2 border-dashed rounded-lg border-[#464646] p-5 uploadImg flex justify-center items-center cursor-pointer"
-                    onClick={selectImage}
-                >
-                    {Img ? (
-                        <Image
-                            src={Img}
-                            alt="preview"
-                            width={700}
-                            height={500}
-                            className="w-full h-full object-contain"
-                            unoptimized
-                        />
-                    ) : (
-                        <span className="text-gray-500">Click to upload an image</span>
-                    )}
+                    <div
+                        className="w-[700px] h-[500px] border-2 border-dashed rounded-lg border-[#464646] p-5 uploadImg flex justify-center items-center cursor-pointer"
+                        onClick={selectImage}
+                    >
+                        {Img ? (
+                            <Image
+                                src={Img}
+                                alt="preview"
+                                width={700}
+                                height={500}
+                                className="w-full h-full object-contain"
+                                unoptimized
+                            />
+                        ) : (
+                            <span className="text-gray-500">Click to upload an image</span>
+                        )}
+                    </div>
+
+                    <input type="file" accept="image/*" hidden ref={ImgRef} onChange={handleImage} />
                 </div>
 
-                <input type="file" accept="image/*" hidden ref={ImgRef} onChange={handleImage} />
+                <div className="w-full flex justify-center items-center mt-10">
+                    ฺ <Button className="text-lg" size="lg"
+                        onClick={predict}
+                    >Predict</Button>
+                </div>
             </div>
-
-            <div className="w-full flex justify-center items-center mt-10">
-                ฺ <Button
-                    onClick={predict}
-                >Predict</Button>
-            </div>
-        </div>
     );
 }

@@ -1,31 +1,48 @@
 "use client"
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import Canvas from '@/components/ui/Canvas'
 import {predictMLModel} from '@/actions/Action'
 import { Button } from '@/components/ui/button';
+import Loader from '@/components/ui/Loader';
 
 export default function MachineLearning() {
     const [Data, setData] = useState<string | null>(null);
+    const [answer, setAnswer] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const sendModelToAPI = async () => {
-      if (!Data) {
-        return;
+   const predict = async () => {
+           if (!Data) {
+               return;
+           }
+   
+           const response = await predictMLModel(Data);
+           if (!response) {
+               return;
+           }
+   
+           setLoading(true);
+           new Promise((resolve) => {
+               setTimeout(() => {
+                   resolve(predictMLModel(Data));
+               }, 1000);
+           }).then((res: unknown) => {
+   
+               const { result } = res as { result: string };
+   
+               if (result) {
+                   setAnswer(result as string);
+               }
+   
+               setLoading(false);
+           })
       }
-
-      // const link = document.createElement("a");
-      // link.href = Data;
-      // link.download = "drawing.jpg"; // File name for download
-      // link.click();
-
-
-      const response = await predictMLModel(Data);
-      console.log(response);
-    }
 
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
+      {loading && <Loader/>}
+       <span className="text-4xl font-bold text-primary">{answer}</span>
       <Canvas setData={setData} width={500} height={500} className='w-full h-full'/>
-      <Button onClick={sendModelToAPI} className='mt-4'>Send</Button>
+      <Button onClick={predict} className='mt-5 text-lg' size='lg'>Predict</Button>
     </div>
   )
 }

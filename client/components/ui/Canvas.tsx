@@ -13,7 +13,7 @@ interface CanvasProps {
 export default function Canvas({ setData, width, height, className }: CanvasProps) {
     const canvasRef = useRef<CanvasDraw | null>(null);
     const [color, setColor] = useState("#000000");
-    const [brushRadius, setBrushRadius] = useState(3);
+    const [brushRadius, setBrushRadius] = useState(2);
 
 
     const saveImageData = () => {
@@ -32,13 +32,13 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
         }
 
         const tempCanvas = document.createElement("canvas");
-        tempCanvas.width = 224;
-        tempCanvas.height = 224;
+        tempCanvas.width = 500;
+        tempCanvas.height = 500;
         const tempCtx = tempCanvas.getContext("2d");
         if (!tempCtx) return;
         tempCtx.fillStyle = "white";
-        tempCtx.fillRect(0, 0, 224, 224);
-        tempCtx.drawImage(canvasElement, 0, 0, 224, 224);
+        tempCtx.fillRect(0, 0, 500, 500);
+        tempCtx.drawImage(canvasElement, 0, 0, 500, 500);
 
         const dataURL = tempCanvas.toDataURL("image/jpeg");
 
@@ -59,8 +59,8 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
     return (
         <div className={cn("flex flex-col", { className })}>
             <CanvasDraw
-                canvasWidth={width}
-                canvasHeight={height}
+                canvasWidth={500}
+                canvasHeight={500}
                 brushRadius={brushRadius}
                 ref={canvasRef}
                 hideGrid={true}

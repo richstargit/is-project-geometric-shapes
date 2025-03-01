@@ -31,7 +31,8 @@ def read_root():
 
 @app.post("/predict/CNN")
 def predictCNN(body: interfacePreditCNN):
-    base64_data = body.image.replace("data:image/jpeg;base64,", "")
+
+    base64_data = body.image.split(",")[1]
 
     # Step 2: Decode the Base64 string into binary data
     img_data = base64.b64decode(base64_data)
@@ -46,7 +47,8 @@ def predictCNN(body: interfacePreditCNN):
 
 @app.post("/predict/KNN")
 def predictKNN(body: interfacePreditKNN):
-    base64_data = body.image.replace("data:image/jpeg;base64,", "")
+
+    base64_data = body.image.split(",")[1]
 
     # Step 2: Decode the Base64 string into binary data
     img_data = base64.b64decode(base64_data)

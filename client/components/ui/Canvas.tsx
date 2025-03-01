@@ -1,9 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import CanvasDraw from "react-canvas-draw";
-import { useRef,useState , useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Eraser,Undo , Redo , Trash2} from 'lucide-react';
+import { Eraser, Undo, Redo, Trash2 } from 'lucide-react';
+import { link } from "fs";
 
 interface CanvasProps {
     setData: (data: string) => void;
@@ -15,8 +16,6 @@ interface CanvasProps {
 export default function Canvas({ setData, width, height, className }: CanvasProps) {
     const canvasRef = useRef<CanvasDraw | null>(null);
     const [history, setHistory] = useState<string[]>([]);
-    const [color, setColor] = useState("#000000");
-    const [brushRadius, setBrushRadius] = useState(2);
 
 
 
@@ -31,7 +30,40 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
         setHistory((prev) => [...prev, historyData]);
     }
 
+    useEffect(() => {
 
+        const canvasDraw = canvasRef.current;
+        if (!canvasDraw) {
+            console.error("Canvas reference not found");
+            return;
+        }
+
+
+        saveImageData();
+    }, [history]);
+
+
+    const clearAll = () => {
+        const canvasDraw = canvasRef.current;
+        if (!canvasDraw) {
+            console.error("Canvas reference not found");
+            return;
+        }
+
+        canvasDraw.clear();
+        setHistory([]);
+        setData("");
+    }
+
+    const undo = () => {
+        const canvasDraw = canvasRef.current;
+        if (!canvasDraw) {
+            console.error("Canvas reference not found");
+            return;
+        }
+
+        canvasDraw.undo();
+    }
 
     const saveImageData = () => {
         const canvasDraw = canvasRef.current;
@@ -71,31 +103,27 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
     return (
         <div className={cn("flex flex-col gap-5", { className })}>
             <div className="flex justify-center items-center gap-5 mt-5">
-                <Button className="flex gap-2 items-center">
-                    <Trash2/>
+                <Button className="flex gap-2 items-center"
+                    onClick={clearAll}
+                >
+                    <Trash2 />
                     <span>ClearAll</span>
                 </Button>
-                <Button className="flex gap-2 items-center">
-                    <Undo/>
+                <Button className="flex gap-2 items-center"
+                    onClick={undo}
+                >
+                    <Undo />
                     <span>Undo</span>
-                </Button>
-                <Button className="flex gap-2 items-center">
-                    <Redo/>
-                    <span>Redo</span>
-                </Button>
-                <Button className="flex gap-2 items-center">
-                    <Eraser/>
-                    <span>Eraser</span>
                 </Button>
             </div>
             <CanvasDraw
                 canvasWidth={700}
                 canvasHeight={500}
-                brushRadius={brushRadius}
+                brushRadius={5}
                 ref={canvasRef}
                 hideGrid={true}
                 onChange={handlerHistory}
-                brushColor={color}
+                brushColor="#000"
                 className="border rounded-lg border-[#464646]"
             />
         </div>

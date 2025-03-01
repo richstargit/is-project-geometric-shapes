@@ -12,9 +12,14 @@ export default function MachineLearning() {
         return;
       }
 
+      // const link = document.createElement("a");
+      // link.href = Data;
+      // link.download = "drawing.jpg"; // File name for download
+      // link.click();
+
+
       const response = await predictMLModel(Data);
       console.log(response);
-
     }
 
   return (

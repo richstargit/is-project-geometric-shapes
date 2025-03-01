@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { predictNeuralNetWorkModel } from "@/actions/Action";
 
 export default function Neural() {
     const [Img, SetImg] = useState<string | null>(null);
@@ -24,6 +25,15 @@ export default function Neural() {
             }
         };
     };
+
+    const predict = async () => {
+        if (!Img) {
+            return;
+        }
+
+        const response = await predictNeuralNetWorkModel(Img);
+        console.log(response);
+    }
 
     return (
         <div className="w-full h-full">
@@ -55,7 +65,9 @@ export default function Neural() {
             </div>
 
             <div className="w-full flex justify-center items-center mt-10">
-                ฺ <Button>Predict</Button>
+                ฺ <Button
+                    onClick={predict}
+                >Predict</Button>
             </div>
         </div>
     );

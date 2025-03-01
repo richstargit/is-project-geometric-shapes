@@ -17,11 +17,13 @@ def modelKNN(image):
     img = cv2.resize(img, (224, 224))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     pixel_values = img.flatten() 
-
+    pixel_values[pixel_values == 0] = 1
+    pixel_values[pixel_values > 200] = 0
+    pixel_values[pixel_values != 0] = 1
     # ทำนายผลลัพธ์
     predictions = KNNmodel.predict([pixel_values])
     predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
-    classname = ['circle', 'kite', 'parallelogram', 'rectangle', 'rhombus', 'square', 'trapezoid', 'triangle']
+    classname = ['rectangle','circle', 'triangle']
 
     return classname[predicted_class]
 

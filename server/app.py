@@ -6,6 +6,8 @@ import base64
 import numpy as np
 import cv2
 from classInterface import interfacePreditCNN,interfacePreditKNN
+import re  # สำหรับลบ prefix ที่ไม่ต้องการ
+import io as io
 
 app = FastAPI()
 
@@ -32,23 +34,21 @@ def read_root():
 @app.post("/predict/CNN")
 def predictCNN(body: interfacePreditCNN):
 
-    base64_data = body.image.split(",")[1]
+    base64_data = re.sub(r'^data:image/[^;]+;base64,', '', body.image)
 
     # Step 2: Decode the Base64 string into binary data
     img_data = base64.b64decode(base64_data)
 
-    # Step 3: Convert the binary data to a numpy array
-    np_array = np.frombuffer(img_data, np.uint8)
+    img = io.BytesIO(img_data)
 
-    # Step 4: Decode the numpy array into an image
-    img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     result = modelCNN(img)
+    
     return {"result": result}
 
 @app.post("/predict/KNN")
 def predictKNN(body: interfacePreditKNN):
 
-    base64_data = body.image.split(",")[1]
+    base64_data = re.sub(r'^data:image/[^;]+;base64,', '', body.image)
 
     # Step 2: Decode the Base64 string into binary data
     img_data = base64.b64decode(base64_data)

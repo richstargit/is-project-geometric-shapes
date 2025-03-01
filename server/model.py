@@ -12,10 +12,9 @@ from tensorflow.keras.preprocessing import image
 CNNmodel = load_model("./models/cnn_animal.h5")
 KNNmodel = joblib.load("./models/knn_model.pkl")
 
-def modelKNN(base64_str):
+def modelKNN(imageBuffer):
     try:
-        img = base64_str
-        img = cv2.resize(img, (224, 224))
+        img = cv2.resize(imageBuffer, (224, 224))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         pixel_values = img.flatten() 
         pixel_values[pixel_values == 0] = 1
@@ -30,11 +29,9 @@ def modelKNN(base64_str):
     except Exception as e:
         return f"Error: {str(e)}"
 
-def modelCNN(base64_str):
+def modelCNN(imageBuffer):
     try:
-        # ถอดรหัส Base64 เป็นภาพ
-        decoded_img = base64.b64decode(base64_str)
-        img = image.load_img(io.BytesIO(decoded_img), target_size=(128, 128))
+        img = image.load_img(imageBuffer, target_size=(128, 128))
         img = image.img_to_array(img)
         img = np.expand_dims(img, axis=0)  # เพิ่มมิติให้เป็น (1, 128, 128, 3)
         img = img / 255.0  # ปรับค่าให้อยู่ในช่วง [0,1]

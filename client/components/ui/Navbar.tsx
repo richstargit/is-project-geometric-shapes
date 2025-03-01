@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Navbar() {
     return (
@@ -12,10 +13,14 @@ export default function Navbar() {
                 </div>
                 <div className="flex justify-start items-center gap-4">
                     <li>
-                        <Button>Machine Learning</Button>
+                        <Link href={'/predictML'}>
+                            <Button>Demo Machine Learning</Button>
+                        </Link>
                     </li>
                     <li>
-                        <Button>Neural NetWork</Button>
+                        <Link href={'/predictNeural'}>
+                        <Button>Demo Neural NetWork</Button>
+                        </Link>
                     </li>
                 </div>
             </ul>

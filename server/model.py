@@ -6,17 +6,26 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from tensorflow.keras.models import load_model # type: ignore
+import joblib as joblib
 
 # โหลดโมเดลที่บันทึกไว้
-CNNmodel = load_model("./models/geometric_shapes_cnn.h5")  # หรือ .keras ก็ได้
+CNNmodel = load_model("./models/cnn_animal.h5")
+KNNmodel = joblib.load("./models/knn_model.pkl")
+
+def modelKNN(image):
+    img = image
+    img = cv2.resize(img, (224, 224))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    pixel_values = img.flatten() 
+
+    # ทำนายผลลัพธ์
+    predictions = KNNmodel.predict([pixel_values])
+    predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
+    classname = ['circle', 'kite', 'parallelogram', 'rectangle', 'rhombus', 'square', 'trapezoid', 'triangle']
+
+    return classname[predicted_class]
 
 def modelCNN(image):
-
-    # แสดงโครงสร้างของโมเดล
-    #CNNmodel.summary()
-
-    # โหลดภาพที่ต้องการทำนาย
-    # image_path = "server/dataset/mytest/mytest4.jpg"  # เปลี่ยนเป็น path จริงของคุณ
     img = image
     img = cv2.resize(img, (224, 224))  # ปรับขนาดให้ตรงกับที่ใช้เทรน
     img = img / 255.0  # ปรับให้เป็นค่า [0,1]
@@ -25,18 +34,18 @@ def modelCNN(image):
     # ทำนายผลลัพธ์
     predictions = CNNmodel.predict(img)
     predicted_class = np.argmax(predictions, axis=1)[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
-    classname = ['circle', 'kite', 'parallelogram', 'rectangle', 'rhombus', 'square', 'trapezoid', 'triangle']
-    # print(classname[predicted_class])
+    classname = ['cane', 'cavallo', 'elefante', 'farfalla', 'gallina', 'gatto', 'mucca', 'pecora', 'ragno', 'scoiattolo']
+    translate = {"cane": "dog", "cavallo": "horse", "elefante": "elephant", "farfalla": "butterfly", "gallina": "chicken", "gatto": "cat", "mucca": "cow", "pecora": "sheep", "scoiattolo": "squirrel", "dog": "cane", "cavallo": "horse", "elephant" : "elefante", "butterfly": "farfalla", "chicken": "gallina", "cat": "gatto", "cow": "mucca", "ragno": "spider", "squirrel": "scoiattolo"}
 
-    # แสดงภาพ
-    # plt.imshow(cv2.imread(image_path)[:, :, ::-1])  # แปลงจาก BGR -> RGB
-    # plt.axis("off")
-    # plt.show()
+    result = translate[classname[predicted_class]]
 
-    return classname[predicted_class]
+    return result
+    
 
 
-def modelKNN():
+
+
+def modelKNN1():
     train_directory = 'server/dataset/train'
 
     X_train = []

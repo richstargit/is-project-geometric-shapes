@@ -71,3 +71,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.uploadImg input[type="file"] {
+  position: absolute;
+  top: -1000px;
+}

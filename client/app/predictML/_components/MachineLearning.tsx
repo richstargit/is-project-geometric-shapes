@@ -1,10 +1,10 @@
 "use client"
 import {useState,useEffect} from 'react';
 import Canvas from '@/components/ui/Canvas'
-import {sendImageToNeuralNetWorkModel} from '@/actions/Action'
+import {predictMLModel} from '@/actions/Action'
 import { Button } from '@/components/ui/button';
 
-export default function DrawCanvas() {
+export default function MachineLearning() {
     const [Data, setData] = useState<string | null>(null);
 
     const sendModelToAPI = async () => {
@@ -12,7 +12,7 @@ export default function DrawCanvas() {
         return;
       }
 
-      const response = await sendImageToNeuralNetWorkModel(Data);
+      const response = await predictMLModel(Data);
       console.log(response);
 
     }

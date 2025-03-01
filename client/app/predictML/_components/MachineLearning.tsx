@@ -15,12 +15,8 @@ export default function MachineLearning() {
                return;
            }
    
-           const response = await predictMLModel(Data);
-           if (!response) {
-               return;
-           }
-   
            setLoading(true);
+           
            new Promise((resolve) => {
                setTimeout(() => {
                    resolve(predictMLModel(Data));

@@ -36,12 +36,8 @@ export default function Neural() {
             return;
         }
 
-        const response = await predictNeuralNetWorkModel(Img);
-        if (!response) {
-            return;
-        }
-
         setLoading(true);
+        
         new Promise((resolve) => {
             setTimeout(() => {
                 resolve(predictNeuralNetWorkModel(Img));

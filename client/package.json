@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
+    "@tabler/icons-react": "^3.31.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
+    "motion": "^12.4.10",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-syntax-highlighter": "^15.6.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -31,5 +35,8 @@
     "eslint-config-next": "15.1.7",
     "@eslint/eslintrc": "^3",
     "@types/bun": "latest"
+  },
+  "overrides": {
+    "react-syntax-highlighter": "15.0.0"
   }
 }

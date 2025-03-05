@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { usePathname  } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -17,13 +17,23 @@ export default function Navbar() {
                 </Link>
                 <div className="flex justify-start items-center gap-4">
                     <li>
+                        <Link href={'/machinelearning'}>
+                            <Button className={`${pathname.startsWith('/machinelearning') ? 'bg-rose-800' : ''}`}>Machine Learning</Button>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={'/neuralnetwork'}>
+                            <Button className={`${pathname.startsWith('/neuralnetwork') ? 'bg-rose-800' : ''}`}>Neural NetWork</Button>
+                        </Link>
+                    </li>
+                    <li>
                         <Link href={'/predictML'}>
                             <Button className={`${pathname.startsWith('/predictML') ? 'bg-rose-800' : ''}`}>Demo Machine Learning</Button>
                         </Link>
                     </li>
                     <li>
                         <Link href={'/predictNeural'}>
-                        <Button className={`${pathname.startsWith('/predictNeural') ? 'bg-rose-800' : ''}`}>Demo Neural NetWork</Button>
+                            <Button className={`${pathname.startsWith('/predictNeural') ? 'bg-rose-800' : ''}`}>Demo Neural NetWork</Button>
                         </Link>
                     </li>
                 </div>

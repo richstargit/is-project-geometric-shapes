@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils";
-import CanvasDraw from "react-canvas-draw";
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Undo, Trash2 } from 'lucide-react';
@@ -12,65 +11,107 @@ interface CanvasProps {
     className?: string;
 }
 
-export default function Canvas({ setData, width, height, className }: CanvasProps) {
-    const canvasRef = useRef<CanvasDraw | null>(null);
+export default function Canvas({ setData, width = 500, height = 500, className }: CanvasProps) {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isDrawing, setIsDrawing] = useState(false);
     const [history, setHistory] = useState<string[]>([]);
 
-
-    const handlerHistory = () => {
-        const canvasDraw = canvasRef.current;
-        if (!canvasDraw) {
-            console.error("Canvas reference not found");
-            return;
-        }
-
-        const historyData = canvasDraw.getSaveData();
-        setHistory((prev) => [...prev, historyData]);
-    }
-
     useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }, []);
 
-        const canvasDraw = canvasRef.current;
-        if (!canvasDraw) {
-            console.error("Canvas reference not found");
-            return;
-        }
-
-
-    }, [history]);
-
-
-    const clearAll = () => {
-        const canvasDraw = canvasRef.current;
-        if (!canvasDraw) {
-            console.error("Canvas reference not found");
-            return;
-        }
-
-        canvasDraw.clear();
-        setHistory([]);
-        setData("");
-    }
-
+    const saveState = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        setHistory((prev) => [...prev, canvas.toDataURL()]);
+      };
+    
     const undo = () => {
-        const canvasDraw = canvasRef.current;
-        if (!canvasDraw) {
-            console.error("Canvas reference not found");
-            return;
-        }
+        if (history.length === 0) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        const lastState = history[history.length - 1];
+        const img = new Image();
+        img.src = lastState;
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            setHistory(history.slice(0, -1));
+            saveImageData();
+        };
+    };
 
-        canvasDraw.undo();
-    }
+    const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        setIsDrawing(true);
+        saveState();
+    };
 
+    const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+        if (!isDrawing) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        ctx.stroke();
+        saveImageData();
+    };
+
+    const stopDrawing = () => {
+        setIsDrawing(false);
+        saveState();
+    };
+
+
+    const clearCanvas = () => {
+        saveState();
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        setData("");
+    };
+
+    const saveImageData = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = 224;
+        tempCanvas.height = 224;
+        const tempCtx = tempCanvas.getContext("2d");
+        if (!tempCtx) return;
+        tempCtx.fillStyle = "white";
+        tempCtx.fillRect(0, 0, 224, 224);
+        tempCtx.drawImage(canvas, 0, 0, 224, 224);
+
+        const imageData = tempCanvas.toDataURL("image/jpeg");
+        setData(imageData);  
+    };
 
     return (
-        <div className={cn("flex flex-col gap-5", { className })}>
+        <div className={cn("flex flex-col gap-5", className)}>
             <div className="flex justify-center items-center gap-5 mt-5">
-                <Button className="flex gap-2 items-center"
-                    onClick={clearAll}
-                >
+                <Button className="flex gap-2 items-center" onClick={clearCanvas}>
                     <Trash2 />
-                    <span>ClearAll</span>
+                    <span>Clear All</span>
                 </Button>
                 <Button className="flex gap-2 items-center"
                     onClick={undo}
@@ -79,15 +120,15 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
                     <span>Undo</span>
                 </Button>
             </div>
-            <CanvasDraw
-                canvasWidth={width}
-                canvasHeight={height}
-                brushRadius={5}
+            <canvas
                 ref={canvasRef}
-                hideGrid={true}
-                onChange={handlerHistory}
-                brushColor="#000"
-                className="border rounded-lg border-[#464646]"
+                width={width}
+                height={height}
+                className="border rounded-lg border-[#464646] "
+                onMouseDown={startDrawing}
+                onMouseMove={draw}
+                onMouseUp={stopDrawing}
+                onMouseLeave={stopDrawing}
             />
         </div>
     );

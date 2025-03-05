@@ -6,24 +6,50 @@ from tensorflow.keras.models import load_model # type: ignore
 import joblib as joblib
 import io as io
 import base64 as base64
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing import image # type: ignore
 
 # โหลดโมเดลที่บันทึกไว้
 CNNmodel = load_model("./models/cnn_animal.h5")
 KNNmodel = joblib.load("./models/knn_model.pkl")
+LRmodel = joblib.load("./models/LR_model.pkl")
+
+def modelLR(imageBuffer):
+    try:
+        img = cv2.resize(imageBuffer, (224, 224))
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        pixel_values = img.flatten() 
+        
+        pixel_values[pixel_values == 0] = 1
+        pixel_values[pixel_values > 200] = 0
+        pixel_values[pixel_values != 0] = 1
+    
+
+        # ทำนายผลลัพธ์
+        predictions = LRmodel.predict([pixel_values])
+        predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
+        classname = ['Rectangle', 'Parallelogram', 'Trapezoid', 'Square','Circle', 'Kite', 'Triangle', 'Rhombus']
+
+
+        return classname[predicted_class]
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 def modelKNN(imageBuffer):
     try:
         img = cv2.resize(imageBuffer, (224, 224))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         pixel_values = img.flatten() 
+        
         pixel_values[pixel_values == 0] = 1
         pixel_values[pixel_values > 200] = 0
         pixel_values[pixel_values != 0] = 1
+
+
         # ทำนายผลลัพธ์
         predictions = KNNmodel.predict([pixel_values])
         predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
-        classname = ['rectangle','circle', 'triangle']
+        classname = ['Rectangle', 'Parallelogram', 'Trapezoid', 'Square','Circle', 'Kite', 'Triangle', 'Rhombus']
+
 
         return classname[predicted_class]
     except Exception as e:

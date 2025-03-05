@@ -3,8 +3,7 @@ import { cn } from "@/lib/utils";
 import CanvasDraw from "react-canvas-draw";
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Eraser, Undo, Redo, Trash2 } from 'lucide-react';
-import { link } from "fs";
+import { Undo, Trash2 } from 'lucide-react';
 
 interface CanvasProps {
     setData: (data: string) => void;
@@ -16,7 +15,6 @@ interface CanvasProps {
 export default function Canvas({ setData, width, height, className }: CanvasProps) {
     const canvasRef = useRef<CanvasDraw | null>(null);
     const [history, setHistory] = useState<string[]>([]);
-
 
 
     const handlerHistory = () => {
@@ -81,13 +79,13 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
         }
 
         const tempCanvas = document.createElement("canvas");
-        tempCanvas.width = 500;
-        tempCanvas.height = 500;
+        tempCanvas.width = 224;
+        tempCanvas.height = 224;
         const tempCtx = tempCanvas.getContext("2d");
         if (!tempCtx) return;
         tempCtx.fillStyle = "white";
-        tempCtx.fillRect(0, 0, 500, 500);
-        tempCtx.drawImage(canvasElement, 0, 0, 500, 500);
+        tempCtx.fillRect(0, 0, 224, 224);
+        tempCtx.drawImage(canvasElement, 0, 0, 224, 224);
 
         const dataURL = tempCanvas.toDataURL("image/jpeg");
 
@@ -117,8 +115,8 @@ export default function Canvas({ setData, width, height, className }: CanvasProp
                 </Button>
             </div>
             <CanvasDraw
-                canvasWidth={700}
-                canvasHeight={500}
+                canvasWidth={width}
+                canvasHeight={height}
                 brushRadius={5}
                 ref={canvasRef}
                 hideGrid={true}

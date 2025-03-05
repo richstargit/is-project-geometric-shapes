@@ -31,6 +31,7 @@ export default function MachineLearning() {
    
                setLoading(false);
            })
+
       }
 
   return (

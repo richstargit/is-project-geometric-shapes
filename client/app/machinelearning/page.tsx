@@ -92,7 +92,7 @@ export default function page() {
             นำมาจาก
             <span className='text-lg font-semibold'><Link href='https://www.kaggle.com/datasets/reevald/geometric-shapes-mathematics' className='text-sky-500'> kaggle geometric shapes mathematics </Link></span>
             เป็น dataset เกี่ยวกับรูปทรงเรขาคณิตจำนวน 8 ชุด ได้แก่
-            <span className='text-primary'> "Circle", "Kite", "Parallelogram", "Square", "Rectangle", "Rhombus", "Trapezoid", "Triangle" </span>
+            <span className='text-primary'> {`"Circle", "Kite", "Parallelogram", "Square", "Rectangle", "Rhombus", "Trapezoid", "Triangle"`} </span>
             แบ่งเป็น 1,500 training samples, 500 validation samples 500 test samples
             จุดประสงค์คือ <span className='text-primary'>ต้องการให้ผู้ใช้สามารถวาดภาพและให้โมเดลทายว่ามันคือรูปทรงอะไร</span>
 

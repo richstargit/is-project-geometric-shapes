@@ -6,73 +6,67 @@ import datasetMLBW from "@/assets/images/datasetMLBW.png";
 import ColourfulText from "@/components/ui/colourful-text";
 import Link from 'next/link';
 
-const coverimg = `
-    import os
-    import cv2
-    import numpy as np
-    import matplotlib.pyplot as plt
+const coverimg = `import os
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
 
-    train_directory = path+'/dataset/train'
-    plt.figure(figsize=(15, 15))
+train_directory = path+'/dataset/train'
+plt.figure(figsize=(15, 15))
 
-    for subfolder in os.listdir(train_directory):
-      shapes_directory = os.path.join(train_directory, subfolder)
+for subfolder in os.listdir(train_directory):
+    shapes_directory = os.path.join(train_directory, subfolder)
 
-      for image_name in os.listdir(shapes_directory):
-          image_path = os.path.join(shapes_directory, image_name)
-          img = cv2.imread(image_path)
+    for image_name in os.listdir(shapes_directory):
+      image_path = os.path.join(shapes_directory, image_name)
+      img = cv2.imread(image_path)
+      gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+      _, binary_img = cv2.threshold(gray_img, 200, 255, cv2.THRESH_BINARY)
+      cv2.imwrite(image_path, binary_img)
+`;
 
-          gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-          _, binary_img = cv2.threshold(gray_img, 200, 255, cv2.THRESH_BINARY)
-          cv2.imwrite(image_path, binary_img)
-  `;
+const encodeTrainData = `train_directory = path+'/dataset/train'
+X=[]
+Y=[]
 
-const encodeTrainData = `
-        train_directory = path+'/dataset/train'
+for subfolder in os.listdir(train_directory):
+    shapes_directory = os.path.join(train_directory, subfolder)
+    for image_name in os.listdir(shapes_directory):
+        image_path = os.path.join(shapes_directory, image_name)
+        img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        pixel_values = img.flatten()
+        X.append(pixel_values)
+        Y.append(subfolder)
 
-        X=[]
-        Y=[]
-
-        for subfolder in os.listdir(train_directory):
-            shapes_directory = os.path.join(train_directory, subfolder)
-            for image_name in os.listdir(shapes_directory):
-                image_path = os.path.join(shapes_directory, image_name)
-                img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-                pixel_values = img.flatten()
-                X.append(pixel_values)
-                Y.append(subfolder)
-
-        X=np.array(X)
-        X[X == 0] = 1
-        X[X > 200] = 0
-        X[X != 0] = 1
-    `;
+X=np.array(X)
+X[X == 0] = 1
+X[X > 200] = 0
+X[X != 0] = 1
+`;
 
 
-const encodeTestData = `
-      test_directory = path+'/dataset/test'
-      X_test=[]
-      Y_test=[]
+const encodeTestData = `test_directory = path+'/dataset/test'
+X_test=[]
+Y_test=[]
 
-      for subfolder in os.listdir(test_directory):
-          shapes_directory = os.path.join(test_directory, subfolder)
+for subfolder in os.listdir(test_directory):
+    shapes_directory = os.path.join(test_directory, subfolder)
 
+    for image_name in os.listdir(shapes_directory):
+        image_path = os.path.join(shapes_directory, image_name)
+        img = cv2.imread(image_path)
 
-          for image_name in os.listdir(shapes_directory):
-              image_path = os.path.join(shapes_directory, image_name)
-              img = cv2.imread(image_path)
+        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, binary_img = cv2.threshold(gray_img, 200, 255, cv2.THRESH_BINARY)
+        pixel_values = binary_img.flatten()
+        X_test.append(pixel_values)
+        Y_test.append(subfolder)
 
-              gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-              _, binary_img = cv2.threshold(gray_img, 200, 255, cv2.THRESH_BINARY)
-              pixel_values = binary_img.flatten()
-              X_test.append(pixel_values)
-              Y_test.append(subfolder)
-
-      X_test=np.array(X_test)
-      X_test[X_test == 0] = 1
-      X_test[X_test > 200] = 0
-      X_test[X_test != 0] = 1
-      `;
+X_test=np.array(X_test)
+X_test[X_test == 0] = 1
+X_test[X_test > 200] = 0
+X_test[X_test != 0] = 1
+`;
 
 
 export default function page() {

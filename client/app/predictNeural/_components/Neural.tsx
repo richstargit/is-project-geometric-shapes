@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { predictNeuralNetWorkModel } from "@/actions/Action";
+import { predictCNNModel } from "@/actions/Action";
 import Loader from "@/components/ui/Loader";
 
 export default function Neural() {
@@ -40,7 +40,7 @@ export default function Neural() {
         
         new Promise((resolve) => {
             setTimeout(() => {
-                resolve(predictNeuralNetWorkModel(Img));
+                resolve(predictCNNModel(Img));
             }, 1000);
         }).then((res: unknown) => {
 

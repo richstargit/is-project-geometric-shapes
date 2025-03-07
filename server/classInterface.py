@@ -5,3 +5,6 @@ class interfacePreditCNN(BaseModel):
 
 class interfacePreditKNN(BaseModel):
     image: str
+class interfacePreditLR(BaseModel):
+    image: str
+

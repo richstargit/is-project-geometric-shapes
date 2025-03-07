@@ -1,11 +1,11 @@
 from typing import Union
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from model import modelCNN, modelKNN
+from model import modelCNN, modelKNN ,modelLR
 import base64
 import numpy as np
 import cv2
-from classInterface import interfacePreditCNN,interfacePreditKNN
+from classInterface import interfacePreditCNN,interfacePreditKNN,interfacePreditLR
 import re  # สำหรับลบ prefix ที่ไม่ต้องการ
 import io as io
 
@@ -59,4 +59,20 @@ def predictKNN(body: interfacePreditKNN):
     # Step 4: Decode the numpy array into an image
     img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     result = modelKNN(img)
+    return {"result": result}
+
+@app.post("/predict/LR")
+def predictLR(body: interfacePreditLR):
+
+    base64_data = re.sub(r'^data:image/[^;]+;base64,', '', body.image)
+
+    # Step 2: Decode the Base64 string into binary data
+    img_data = base64.b64decode(base64_data)
+
+    # Step 3: Convert the binary data to a numpy array
+    np_array = np.frombuffer(img_data, np.uint8)
+
+    # Step 4: Decode the numpy array into an image
+    img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+    result = modelLR(img)
     return {"result": result}

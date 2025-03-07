@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  server:
+    container_name: is_server
+    image: richstardocker/is_server:latest
+    ports:
+      - 8000:8000
+    restart: always

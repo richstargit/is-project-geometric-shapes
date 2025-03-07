@@ -177,9 +177,9 @@ export default function Page() {
 
       <div className='w-full m-auto h-fit mt-20'>
         <div className='w-[90%] m-auto h-fit'>
-          <h1 className="text-2xl font-bold relative z-2 font-sans">
-            Encoder
-          </h1>
+            <h1 className="text-2xl font-bold relative z-2 font-sans">
+            Encode and Split Data for Training and Testing
+            </h1>
           <p>
             encode ชุดข้อมูลให้เป็น <span className='text-lg text-primary font-semibold'> 0 กับ 1 และปรับเป็น array 1 มิติ </span>
             และทำการ <span className='text-lg text-primary font-semibold'> encode label </span>ทำทั้งชุดสำหรับเทรนและทดสอบ

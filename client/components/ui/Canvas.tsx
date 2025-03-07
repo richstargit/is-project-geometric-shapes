@@ -54,7 +54,7 @@ export default function Canvas({ setData, width = 500, height = 500, className }
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
         ctx.strokeStyle = "black";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 20;
         ctx.beginPath();
         ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
         setIsDrawing(true);

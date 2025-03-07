@@ -15,8 +15,7 @@ LRmodel = joblib.load("./models/LR_model.pkl")
 
 def modelLR(imageBuffer):
     try:
-        img = cv2.resize(imageBuffer, (224, 224))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = cv2.cvtColor(imageBuffer, cv2.COLOR_BGR2GRAY)
         pixel_values = img.flatten() 
         
         pixel_values[pixel_values == 0] = 1
@@ -24,7 +23,7 @@ def modelLR(imageBuffer):
         pixel_values[pixel_values != 0] = 1
     
 
-        # ทำนายผลลัพธ์
+        # ทำนายผลลัพธ์œœœœœ
         predictions = LRmodel.predict([pixel_values])
         predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
         classname = ['Rectangle', 'Parallelogram', 'Trapezoid', 'Square','Circle', 'Kite', 'Triangle', 'Rhombus']

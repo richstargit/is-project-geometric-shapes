@@ -7,7 +7,7 @@ import joblib as joblib
 import io as io
 import base64 as base64
 from tensorflow.keras.preprocessing import image # type: ignore
-import gdown
+import gdown as gdown
 
 # โหลดโมเดลที่บันทึกไว้
 #CNNmodel = load_model("./models/cnn_animal.h5")

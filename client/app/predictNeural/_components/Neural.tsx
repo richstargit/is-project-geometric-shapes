@@ -64,15 +64,15 @@ export default function Neural() {
                     <span className="text-4xl font-bold text-primary">{answer}</span>
 
                     <div
-                        className="w-[700px] h-[500px] border-2 border-dashed rounded-lg border-[#464646] p-5 uploadImg flex justify-center items-center cursor-pointer"
+                        className="w-[300px] h-[300px] sm:w-[700px] sm:h-[500px] border-2 border-dashed rounded-lg border-[#464646] p-5 uploadImg flex justify-center items-center cursor-pointer"
                         onClick={selectImage}
                     >
                         {Img ? (
                             <Image
                                 src={Img}
                                 alt="preview"
-                                width={700}
-                                height={500}
+                                width={300}
+                                height={300}
                                 className="w-full h-full object-contain"
                                 unoptimized
                             />

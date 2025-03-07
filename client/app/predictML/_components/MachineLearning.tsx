@@ -15,22 +15,22 @@ export default function MachineLearning() {
             return;
         }
 
-           setLoading(true);
+        setLoading(true);
 
-           new Promise((resolve) => {
-               setTimeout(() => {
-                   resolve(predictMLModel(Data));
-               }, 1000);
-           }).then((res: unknown) => {
+        new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(predictMLModel(Data));
+            }, 1000);
+        }).then((res: unknown) => {
 
-               const { result } = res as { result: string };
+            const { result } = res as { result: string };
 
-               if (result) {
-                   setAnswer(result as string);
-               }
+            if (result) {
+                setAnswer(result as string);
+            }
 
-               setLoading(false);
-           });
+            setLoading(false);
+        });
     }
 
     return (

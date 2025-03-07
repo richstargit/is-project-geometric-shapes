@@ -12,10 +12,10 @@ import io as io
 app = FastAPI()
 
 origins = [
-    "http://unknowkubbrother.net",
-    "http://api-ai.unknowkubbrother.net",
+    "https://unknowkubbrother.net",
+    "https://hexcode-api.unknowkubbrother.net",
     "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:8000",
 ]
 
 app.add_middleware(

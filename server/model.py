@@ -16,7 +16,7 @@ import gdown
 
 url_knn="https://drive.google.com/uc?export=download&id=1DsYkGlptGa-5_Fu5uNBi4q5j5_-j0ZRg"
 url_lr="https://drive.google.com/uc?export=download&id=1dQLbhZad1lIdD9rwHGepzPBvlZaUqlmz"
-url_cnn="https://drive.google.com/uc?export=download&id=1U7E0e1lVvCVhR274wUCa_ICJMG0DxYfu"
+url_cnn="https://drive.google.com/uc?export=download&id=1tdrMa7hDYvm8m8pjkccCf06kTnFGsg4w"
 gdown.download(url_knn, 'knn_model.pkl', quiet=False)
 gdown.download(url_lr, 'LR_model.pkl', quiet=False)
 gdown.download(url_cnn, 'cnn_animal.h5', quiet=False)

@@ -133,7 +133,7 @@ export default function Page() {
 
         </div>
 
-        <div className='w-full h-full flex justify-center items-center'>
+        <div className='w-full h-full justify-center items-center 2xl:flex hidden'>
           <h1 className="text-7xl font-bold text-center text-white relative z-2 font-sans transform -rotate-6 drop-shadow-xl">
             <ColourfulText text="Kaggle" />
           </h1>
@@ -141,7 +141,7 @@ export default function Page() {
       </div>
 
       <div data-aos="fade-right" data-aos-duration="1500">
-        <div className='w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6'>
+        <div className='w-[70%] xl:w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6'>
           <Image src={datasetML} alt="datasetML" />
         </div>
       </div>
@@ -155,7 +155,7 @@ export default function Page() {
           ทำทั้งชุดสำหรับเทรนและทดสอบ
         </p>
 
-        <div className='w-full flex justify-between items-center mt-10'>
+        <div className='w-full xl:flex justify-between items-center mt-10'>
           <div data-aos="fade-right" className="w-full h-fit">
             <CodeBlock
               language="python"
@@ -165,7 +165,7 @@ export default function Page() {
           </div>
 
           <span data-aos="fade-left" data-aos-duration="1500">
-            <div className='w-[90%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6'
+            <div className='w-[70%] xl:w-[90%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg xl:transform xl:-rotate-6'
             >
               <Image src={datasetMLBW} alt="datasetMLBW" />
             </div>
@@ -187,7 +187,7 @@ export default function Page() {
           </p>
         </div>
 
-        <div className='w-full flex justify-between items-start mt-10 relative'>
+        <div className='w-full xl:flex justify-between items-start mt-10 xl:relative'>
           <div className='flex flex-col gap-7'>
             <div data-aos="fade-right">
               <CodeBlock
@@ -207,7 +207,7 @@ export default function Page() {
             </div>
           </div>
           <div data-aos="fade-left" data-aos-duration="1500">
-            <div className='drop-shadow-lg absolute -top-10 -right-6 transform -rotate-2'>
+            <div className='drop-shadow-lg xl:absolute xl:-top-10 xl:-right-6 xl:transform xl:-rotate-2 mt-10 xl:mt-0'>
               <CodeBlock
                 language="python"
                 filename="Encoder_TestData.py"
@@ -231,12 +231,12 @@ export default function Page() {
         </p>
 
 
-        <div className='w-full flex justify-between items-center mt-10'>
-          <div className='w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6 z-50'>
-            <Image src={ScoreKNN} alt="ScoreKNN" />
+        <div className='w-full xl:flex justify-between items-center mt-10'>
+          <div className='lg:w-[50%] xl:w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg xl:transform xl:-rotate-6 z-50'>
+            <Image src={ScoreKNN} alt="ScoreKNN" className="w-full"/>
           </div>
 
-          <div data-aos="fade-left" className="w-full">
+          <div data-aos="fade-left" className="w-full mt-10 xl:mt-0">
             <CodeBlock
               language="python"
               filename="KNN_MODEL.py"
@@ -258,7 +258,7 @@ export default function Page() {
         </p>
 
 
-        <div className='w-full flex justify-between items-center mt-10'>
+        <div className='w-full xl:flex justify-between items-center mt-10'>
           <div data-aos="fade-right" className="w-full">
             <CodeBlock
               language="python"
@@ -266,8 +266,8 @@ export default function Page() {
               code={LRModel}
             />
           </div>
-          <div className='w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6 z-50'>
-            <Image src={ScoreLR} alt="ScoreLR" />
+          <div className='lg:w-[50%] xl:w-[40%] m-auto h-fit flex justify-center items-center mt-[3rem] bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg xl:transform xl:-rotate-6 z-50'>
+            <Image src={ScoreLR} alt="ScoreLR" className="w-full"/>
           </div>
         </div>
 

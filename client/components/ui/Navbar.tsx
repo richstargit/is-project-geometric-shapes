@@ -2,20 +2,41 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { usePathname } from "next/navigation";
+import { FloatingNav } from "../ui/floating-navbar";
 
 export default function Navbar() {
     const pathname = usePathname();
 
+    const navItems = [
+        {
+            name: "Machine Learning",
+            link: "/machinelearning",
+        },
+        {
+            name: "Neural NetWork",
+            link: "/neuralnetwork",
+        },
+        {
+            name: "Demo Machine Learning",
+            link: "/predictML",
+        },
+        {
+            name: "Demo Neural NetWork",
+            link: "/predictNeural",
+        },
+    ];
+
     return (
-        <nav className='w-full p-3 border-b-2 '>
-            <ul className='w-full flex justify-around items-center'>
+        <nav className='w-full p-3 border-b-2 relative'>
+            <FloatingNav navItems={navItems} className="lg:hidden"/>
+            <ul className='w-full flex lg:justify-around items-center'>
                 <Link href={'/'}>
                     <span className="text-xl">
                         <span> Toffee </span>
                         <span className="text-primary">Geometric</span>
                     </span>
                 </Link>
-                <div className="flex justify-start items-center gap-4">
+                <div className="hidden lg:flex justify-start items-center gap-4">
                     <li>
                         <Link href={'/machinelearning'}>
                             <Button className={`${pathname.startsWith('/machinelearning') ? 'bg-rose-800' : ''}`}>Machine Learning</Button>

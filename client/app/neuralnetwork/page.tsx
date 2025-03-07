@@ -100,7 +100,7 @@ export default function Page() {
                     Neural NetWork
                 </h1>
             </header>
-            <div className='w-[70%] m-auto h-fit justify-between items-center flex mt-20 gap-20'>
+            <div className='w-[70%] m-auto h-fit justify-between items-center lg:flex mt-20 gap-20'>
                 <div className='flex flex-col gap-5'>
                     <h1 className="text-2xl font-bold relative z-2 font-sans">
                         Datasets
@@ -122,7 +122,7 @@ export default function Page() {
                 </div>
 
                 <div data-aos="fade-left" data-aos-duration="1500">
-                    <div className='w-full m-auto h-fit flex flex-col gap-2 justify-center items-center bg-bgsecondary pt-2 pb-5 px-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6'>
+                    <div className='w-full m-auto h-fit flex flex-col gap-2 justify-center items-center bg-bgsecondary pt-2 pb-5 px-5 rounded-lg border-2 drop-shadow-lg lg:transform lg:-rotate-6 mt-10 lg:mt-0'>
                         <h1 className="text-xs">
                             Example Dataset
                         </h1>
@@ -140,9 +140,9 @@ export default function Page() {
                     เนื่องจากโฟลเดอร์ของไฟล์นี้เป็นภาษาอื่นซึ่งเป็นภาษา <span className="text-primary"> Italian </span> จึงต้องทำการแปลภาษาเป็นภาษา <span className="text-primary"> อังกฤษ </span> ก่อน โดยใช้ Dictionary ในการแปลภาษา
                 </p>
 
-                <div className='w-full flex justify-evenly items-center mt-10'>
+                <div className='w-full lg:flex justify-evenly items-center mt-10'>
 
-                    <div data-aos="fade-right" className="w-[80%] h-fit">
+                    <div data-aos="fade-right" className="lg:w-[80%] h-fit">
                         <CodeBlock
                             language="python"
                             filename="MappingTranslate.py"
@@ -150,7 +150,7 @@ export default function Page() {
                         />
                     </div>
 
-                    <div data-aos="fade-left" className="h-fit w-[15%]">
+                    <div data-aos="fade-left" className="h-fit xl:w-[15%] lg:mt-0 mt-10">
                         <CodeBlock
                             language="python"
                             filename="OutputMapping.py"
@@ -189,7 +189,7 @@ export default function Page() {
                     ทำการใส่ layer ให้กับ model input <span className="text-primary"> 128*128*3 </span> output มี <span className="text-primary"> 10 </span> คลาส 
                 </p>
 
-                <div className='w-full flex justify-between items-center mt-10'>
+                <div className='w-full 2xl:flex justify-between items-center mt-10'>
 
                     <div data-aos="fade-rigt" className="w-full">
                         <CodeBlock
@@ -199,9 +199,9 @@ export default function Page() {
                         />
                     </div>
 
-                    <div data-aos="fade-left" data-aos-duration="1500">
-                    <div className='w-full m-auto h-fit flex justify-center items-center bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg transform -rotate-6'>
-                        <Image src={layerModelCNN} alt="datasetML"/>
+                    <div data-aos="fade-left" data-aos-duration="1500" className="2xl:mt-0 mt-10">
+                    <div className='lg:w-[70%] 2xl:w-full m-auto h-fit flex justify-center items-center bg-bgsecondary p-5 rounded-lg border-2 drop-shadow-lg 2xl:transform 2xl:-rotate-6 mt-10 xl:mt-0'>
+                        <Image src={layerModelCNN} alt="datasetML" className="w-full"/>
                     </div>
                 </div>
 

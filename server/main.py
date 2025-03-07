@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from model import modelCNN, modelKNN ,modelLR
 import base64
 import numpy as np
-import cv2
+import cv2 as cv2
 from classInterface import interfacePreditCNN,interfacePreditKNN,interfacePreditLR
 import re  # สำหรับลบ prefix ที่ไม่ต้องการ
 import io as io

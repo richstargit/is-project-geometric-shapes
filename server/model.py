@@ -10,19 +10,23 @@ from tensorflow.keras.preprocessing import image # type: ignore
 import gdown as gdown
 
 # โหลดโมเดลที่บันทึกไว้
-#CNNmodel = load_model("./models/cnn_animal.h5")
-# KNNmodel = joblib.load("./models/knn_model.pkl")
-#LRmodel = joblib.load("./models/LR_model.pkl")
+CNNmodel = load_model("./models/cnn_animal.h5")
+KNNmodel = joblib.load("./models/knn_model.pkl")
+LRmodel = joblib.load("./models/LR_model.pkl")
+PCAmodel = joblib.load("./models/pca_model.pkl")
 
-url_knn="https://drive.google.com/uc?export=download&id=1hxgMDOsf-lgSlINF-Sxyj-MQRtZKbMtI"
-url_lr="https://drive.google.com/uc?export=download&id=1dQLbhZad1lIdD9rwHGepzPBvlZaUqlmz"
-url_cnn="https://drive.google.com/uc?export=download&id=1tdrMa7hDYvm8m8pjkccCf06kTnFGsg4w"
-gdown.download(url_knn, 'knn_model.pkl', quiet=False)
-gdown.download(url_lr, 'LR_model.pkl', quiet=False)
-gdown.download(url_cnn, 'cnn_animal.h5', quiet=False)
-KNNmodel = joblib.load('knn_model.pkl')
-LRmodel = joblib.load('LR_model.pkl')
-CNNmodel = load_model("cnn_animal.h5")
+# url_knn="https://drive.google.com/uc?export=download&id=1hxgMDOsf-lgSlINF-Sxyj-MQRtZKbMtI"
+# url_lr="https://drive.google.com/uc?export=download&id=1dQLbhZad1lIdD9rwHGepzPBvlZaUqlmz"
+# url_cnn="https://drive.google.com/uc?export=download&id=1tdrMa7hDYvm8m8pjkccCf06kTnFGsg4w"
+# url_pca = "https://drive.google.com/uc?export=download&id=1O-qPHKtWob5YxY_PApnElOlwqYQgiJN3"
+# gdown.download(url_knn, 'knn_model.pkl', quiet=False)
+# gdown.download(url_lr, 'LR_model.pkl', quiet=False)
+# gdown.download(url_cnn, 'cnn_animal.h5', quiet=False)
+# gdown.download(url_pca, 'pca_model.pkl', quiet=False)
+# KNNmodel = joblib.load('knn_model.pkl')
+# LRmodel = joblib.load('LR_model.pkl')
+# CNNmodel = load_model("cnn_animal.h5")
+# PCAmodel = joblib.load("pca_model.pkl")
 
 def modelLR(imageBuffer):
     try:
@@ -54,9 +58,10 @@ def modelKNN(imageBuffer):
         pixel_values[pixel_values > 200] = 0
         pixel_values[pixel_values != 0] = 1
 
-
+        X_test_pca = PCAmodel.transform([pixel_values])
+        
         # ทำนายผลลัพธ์
-        predictions = KNNmodel.predict([pixel_values])
+        predictions = KNNmodel.predict(X_test_pca)
         predicted_class = predictions[0]  # ได้ค่าที่โมเดลคิดว่าถูกต้องที่สุด
         classname = ['Rectangle', 'Parallelogram', 'Trapezoid', 'Square','Circle', 'Kite', 'Triangle', 'Rhombus']
 
